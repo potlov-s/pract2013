@@ -2,14 +2,11 @@
 #include <iostream> 
 #include <math.h>
 
-
-
 void TPoint::setxy(int ix, int iy)
 {
 	x = ix;
 	y = iy;
 }
-
 
 TPoint::TPoint(void)
 {
@@ -22,9 +19,6 @@ TPoint::TPoint(int ix, int iy)
 	x = ix;
 	y = iy;
 }
-
-
-
 
 TPoint::~TPoint(void)
 {

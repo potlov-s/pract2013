@@ -14,7 +14,7 @@ public:
 	TPoint * getp1();
 	TPoint * getp2();
 	TLine(void);
-	TLine::TLine(int ix1, int iy1, int ix2, int iy2);
+	TLine(int ix1, int iy1, int ix2, int iy2);
 	virtual ~TLine(void);
 	void show();
 

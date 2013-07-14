@@ -6,18 +6,20 @@
 #include "tline.h"
 #include "trectangle.h"
 #include "tsafevector.h"
+#include "timage.h"
+#include "toglimage.h"
 
 #include <GL/glut.h>
 #include <GL/gl.h> 
-#include  <GL/glu.h>
+#include <GL/glu.h>
 #include <Windows.h>
-
 
 const float PI = 3.141592653589;
 
 TSafeVector linesq;
 TSafeVector recsq;
 TSafeVector figures;
+TOGLImage img;
 
 int isequals(TPoint &p1, TPoint &p2, int delta)
 {
@@ -82,14 +84,18 @@ int isCrossed(TLine &l1, TLine &l2)
 				xx1 = (b2-b1)/(k1-k2);
 				yy1 = xx1*k1+b1;
 			}
-			else return 0; // параллельные линии
+			else 
+				return 0; // параллельные линии
 		}
 	}
 
 	if( ((xx1 == x11) && (yy1 == y11)) || ((xx1 == x12) && (yy1 == y12)) || ((xx1 == x21) && (yy1 == y21)) || ((xx1 == x22) && (yy1 == y22)))
 		return 0; // пересечение на месте соедниения
 	else
-		if((xx1>=x11) && (xx1<=x12) && (xx1>=x21) && (xx1<=x22)) return 1; else return 0;
+		if((xx1>=x11) && (xx1<=x12) && (xx1>=x21) && (xx1<=x22)) 
+			return 1; 
+		else 
+			return 0;
 }
 
 int isParallel(TLine &l1, TLine &l2)
@@ -100,12 +106,18 @@ int isParallel(TLine &l1, TLine &l2)
 	float dy2 = (*l2.getp2()).gety()-(*l2.getp1()).gety();
 	
 	if((dx1==0) || (dx2==0))
-		if(dx1==dx2) return 1; else	return 0;
+		if(dx1==dx2) 
+			return 1; 
+		else	
+			return 0;
 	else
 	{
 		float k1 = dy1/dx1;
 		float k2 = dy2/dx2;
-		if(k1==k2) return 1; else return 0;
+		if(k1==k2)
+			return 1; 
+		else 
+			return 0;
 	}
 	
 }
@@ -118,7 +130,6 @@ void loadLines(TSafeVector *lns, char *fname)
 	int i = 0;
 	int k = 0;
 	int n[4];
-
 	int cnt = 0;
 
 	while(fscanf(fp, "%d", &n[i]) != EOF){
@@ -126,7 +137,6 @@ void loadLines(TSafeVector *lns, char *fname)
 		if(i==4)
 		{
 			i = 0;
-			
 			(*lns).setat(new TLine(n[0],n[1],n[2],n[3]),cnt);
 			cnt++;
 		}
@@ -147,7 +157,6 @@ void showLines(TSafeVector *p)
 	{
 		printf("Line %d: ", i+1);
 		(*p).show(i);
-
 		printf("\n");
 	}	
 	
@@ -158,24 +167,13 @@ void findConLine(TSafeVector *all, int li, TPoint *p1, int *resl, int cnt, TSafe
 	if(n<5){
 		for(int i=cur_i; i<(all->length()); i++)
 		{
-			if(
-				(i!=li) 
-				&& (
-					(     *(((TLine*)(all->get(i)))->getp1()) == *p1   ) 
-					|| 
-					(     *(((TLine*)(all->get(i)))->getp2()) == *p1   )
-				)
-			)
+			if((i!=li) && ( (*(((TLine*)(all->get(i)))->getp1()) == *p1 ) || (*(((TLine*)(all->get(i)))->getp2()) == *p1)))
 			{
 				resl[cnt] = i;
 				if(*(((TLine*)(all->get(i)))->getp1())==*p1)
-				{
 					findConLine(all, i, ((TLine*)(all->get(i)))->getp2(), resl, cnt+1, recsq, n+1,cur_i);
-				}
 				else
-				{
 					findConLine(all, i, ((TLine*)(all->get(i)))->getp1(), resl, cnt+1, recsq, n+1,cur_i);
-				}
 			}
 		}
 	}
@@ -189,27 +187,20 @@ void findConLine(TSafeVector *all, int li, TPoint *p1, int *resl, int cnt, TSafe
 						isParallel(*(TLine*)(all->get(resl[3])), *(TLine*)(all->get(resl[0]))) ))
 			{
 				// найден четырехугольник
-				
-
 				recsq->setat(new TRectangle(*(TLine*)(all->get(resl[0])),*(TLine*)(all->get(resl[1])),*(TLine*)(all->get(resl[2])),*(TLine*)(all->get(resl[3]))),recsq->length());
-
 				//printf("[%d-%d-%d-%d]\n",resl[0]+1,resl[1]+1,resl[2]+1,resl[3]+1);
-
 			}
 		}
 	}
-	
 }
 
 void calcRectangles(TSafeVector *linesq, TSafeVector *recsq)
 {
-	
 	for(int i=0; i<(linesq->length()); i++)
 	{
 		int resl[5];
 		resl[0] = i;
 		int rescnt = 1;
-
 		findConLine(linesq, i, ((TLine*)(linesq->get(i)))->getp2(), resl, rescnt, recsq, 1, i);
 	}
 	
@@ -233,7 +224,6 @@ int hasLine(TSafeVector * lines, TLine * l){
 
 void getLinesFromRecs(TSafeVector * lines, TSafeVector * recs)
 {
-	
 	int j = 0;
 	for(int i=0; i<(recs->length()); i++)
 	{
@@ -246,9 +236,6 @@ void getLinesFromRecs(TSafeVector * lines, TSafeVector * recs)
 			}
 		}
 	}
-	//showLines(&linesq);
-	
-	
 }
 
 void drawQuad(TRectangle *r, GLfloat color[]) {
@@ -258,9 +245,7 @@ void drawQuad(TRectangle *r, GLfloat color[]) {
 	glVertex2f( r->getLine(1)->getp1()->getx(), r->getLine(1)->getp1()->gety());
 	glVertex2f( r->getLine(1)->getp2()->getx(), r->getLine(1)->getp2()->gety());
 
-	
 	TPoint * last_point = r->getLine(1)->getp2();
-
 	for(int i = 2; i <= 3; i++)
 	{
 		if(*(r->getLine(i)->getp1())==(*last_point))
@@ -313,17 +298,23 @@ void display( void )
 	float col[3] = {0, 0.7, 1};
 	float col2[3] = {1, 1, 1};
 
+	/*
 	for(int i = 0; i < recsq.length(); i++)
 		drawQuad((TRectangle*)(recsq.get(i)), col);
 	
 	for(int i = 0; i < figures.length(); i++)
 		drawQuad((TRectangle*)(figures.get(i)), col2);
-		
+		*/
+
+	img.show();
+
 	glutSwapBuffers();
 	
+	/*
 	Sleep(40);
 	recalc();
 	glutPostRedisplay();
+	*/
 		
 }
 
@@ -342,7 +333,10 @@ void keyboard(unsigned char key, int x, int y )
 
 int main(int argc, char** argv)
 {
+	img.load("img/2.pgm");
 
+	img.save("img/test.pgm");
+	
     initLines(&linesq);
 	showLines(&linesq);
 	calcRectangles(&linesq, &recsq);
@@ -350,7 +344,7 @@ int main(int argc, char** argv)
 
 	glutInit( &argc, argv ); 
 	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB);
-	glutInitWindowSize(800, 800);
+	glutInitWindowSize(400, 400);
 	glutInitWindowPosition(800, 100);
 	glutCreateWindow( "My First Window" );
 	glutDisplayFunc(display);
@@ -361,8 +355,8 @@ int main(int argc, char** argv)
 	
 	glutMainLoop();
 
-	
-	
+
+	//getchar();
 
     return 0;
 }
