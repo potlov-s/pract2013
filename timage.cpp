@@ -26,13 +26,14 @@ int TImage::getpoint(int px, int py)
 
 void TImage::load(char* file)
 {
+
 	FILE *fp;
 	fp = fopen(file,"r");
 	char c[100];
 
 	fgets(c,sizeof(c),fp);
 	fgets(c,sizeof(c),fp);
-	if(c[0]!='#') // не комментарий?
+	if(c[0]!='#')
 		sscanf(c,"%d%d",&w,&h);
 	else
 		fscanf(fp, "%d%d", &w, &h);

@@ -333,7 +333,7 @@ void keyboard(unsigned char key, int x, int y )
 
 int main(int argc, char** argv)
 {
-	img.load("img/2.pgm");
+	img.load("img/1.pgm");
 
 	img.save("img/test.pgm");
 	
@@ -344,7 +344,7 @@ int main(int argc, char** argv)
 
 	glutInit( &argc, argv ); 
 	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB);
-	glutInitWindowSize(400, 400);
+	glutInitWindowSize(800, 800);
 	glutInitWindowPosition(800, 100);
 	glutCreateWindow( "My First Window" );
 	glutDisplayFunc(display);
