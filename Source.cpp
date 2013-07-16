@@ -335,6 +335,17 @@ int main(int argc, char** argv)
 {
 	img.load("img/3.pgm");
 	img.filterSobel();
+	/*
+	img.save("img/test.pgm");
+	
+	TImage pp;
+	TImage pp2;
+	pp.load("img/2.pgm");
+
+	img.copy(&pp);
+	
+	img.save("img/t.pgm");
+	*/
 
     initLines(&linesq);
 	showLines(&linesq);

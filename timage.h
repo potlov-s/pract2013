@@ -16,5 +16,8 @@ public:
 	void save(char* file);
 	void copy(TImage *p);
 	void filterSobel();
+	 
+	friend bool operator==(const TImage& left, const TImage& right);
+	TImage& operator=(TImage& i);
 };
 

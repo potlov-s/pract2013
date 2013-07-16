@@ -80,6 +80,15 @@ void TImage::copy(TImage *p)
 	max = p->max;
 }
 
+bool operator==(const TImage& left, const TImage& right) {
+	if(left.w!=right.w || left.h!=right.h) 
+		return 0;
+	else
+		for(int i=0;i<left.w*left.h;i++)
+			if(left.image[i]!=right.image[i]) return 0;
+	return 1;
+}
+
 void TImage::filterSobel()
 {
 	int z[3][3];
@@ -122,4 +131,10 @@ void TImage::filterSobel()
 	for(int y=1;y<=h;y++)
 		for(int x=1;x<=w;x++)
 			image[(y-1)*w+x-1] = buf[(y-1)*w+x-1];
+}
+
+TImage& TImage::operator=(TImage& i)
+{
+	copy(&i);
+	return *this;
 }
