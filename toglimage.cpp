@@ -10,28 +10,20 @@ TOGLImage::TOGLImage(void)
 {
 }
 
-
 TOGLImage::~TOGLImage(void)
 {
 }
 
 void TOGLImage::show()
 {
-
-	glPixelStorei(1, 1);
-	glRasterPos2i(0, 0);
-
 	GLubyte *data;
 	data = (GLubyte*)malloc(sizeof(GLubyte)*(w*h));
+
 	int i = 0;
 	for(int y=1;y<=h;y++)
-		for(int x=1;x<=w;x++)
-		{
-			data[i]=getpoint(x,h-y+1);
-			i++;
-		}
+		for(int x=1;x<=w;x++,i++)
+			data[i]=(int)(getpoint(x,h-y+1)*255/max);
 
-	glRasterPos2f(2.0f, 1.0f);
+	glRasterPos2f(-w/4,-h/4);
 	glDrawPixels(w, h, GL_LUMINANCE, GL_UNSIGNED_BYTE, data);
-	
 }

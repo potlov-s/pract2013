@@ -14,5 +14,7 @@ public:
 	int getpoint(int px, int py);
 	void load(char* file);
 	void save(char* file);
+	void copy(TImage *p);
+	void filterSobel();
 };
 

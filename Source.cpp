@@ -333,10 +333,9 @@ void keyboard(unsigned char key, int x, int y )
 
 int main(int argc, char** argv)
 {
-	img.load("img/1.pgm");
+	img.load("img/3.pgm");
+	img.filterSobel();
 
-	img.save("img/test.pgm");
-	
     initLines(&linesq);
 	showLines(&linesq);
 	calcRectangles(&linesq, &recsq);
