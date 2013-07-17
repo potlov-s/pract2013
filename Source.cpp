@@ -16,6 +16,7 @@
 #include <GL/glu.h>
 #include <Windows.h>
 
+#include "lsd.h"
 
 const float PI = 3.141592653589;
 
@@ -318,7 +319,7 @@ void display( void )
 	float col3[3] = {1, 0.8, 0.2}; // оранжевый
 	float col4[3] = {1, 0.1, 0.3};
 
-	
+	/*
 	for(int i = 0; i < recsq.length(); i++)
 		drawQuad((TRectangle*)(recsq.get(i)), col1);
 	
@@ -331,20 +332,70 @@ void display( void )
 	
 	for(int i = 0; i < figures2.length(); i++)
 		drawTriangle((Triangle*)(figures2.get(i)), col2);
+	*/
+
+	double * image;
+	double * out;
+	int x,y,i,j,n;
+	int X = img.getw();  /* x image size */
+	int Y = img.geth();  /* y image size */
+
+	image = (double *) malloc( X * Y * sizeof(double) );
+	 if( image == NULL )
+    {
+      fprintf(stderr,"error: not enough memory\n");
+      exit(EXIT_FAILURE);
+    }
+	for(x=0;x<X;x++)
+		for(y=0;y<Y;y++)
+			image[x+y*X] = img.getpoint(x+1,y+1); /* image(x,y) */
 	
+	/* LSD call */
+	out = lsd(&n,image,X,Y);
+
+	TSafeVector lns;
+	//linesq.deleteall();
+	int k = 0;
+	for(i=0;i<n;i++)
+	{
+		//for(j=0;j<7;j++)
+			//printf("%4.0f ",out[7*i+j]);
+		lns.setat(new TLine(out[7*i+0],img.geth()-out[7*i+1],out[7*i+2],img.geth()-out[7*i+3]),k);
+		((TLine*)(lns.get(k)))->shift(-img.getw()/2,-img.geth()/2);
+		k++;
+    }
+
+	img.show();
+
+	for(int i = 0; i < lns.length(); i++)
+		drawLine((TLine*)(lns.get(i)), col1);
+
+	calcRectangles(&lns, &figures);
+	calcTriangles(&lns, &figures2);
+
+	for(int i = 0; i < figures.length(); i++)
+		drawQuad((TRectangle*)(figures.get(i)), col3);
+	
+	for(int i = 0; i < figures2.length(); i++)
+		drawTriangle((Triangle*)(figures2.get(i)), col4);
+
 	glutSwapBuffers();
 	
+	free( (void *) image );
+	free( (void *) out );
+
+	/*
 	Sleep(40);
 	recalc();
 	glutPostRedisplay();
-	
+	*/	
 }
 
 
 
 int main(int argc, char** argv)
 {
-	//img.load("img/4.pgm");
+	img.load("img/4.pgm");
 	//img.filterSobel();
 	
     initLines(&linesq);

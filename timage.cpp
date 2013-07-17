@@ -121,7 +121,7 @@ void TImage::filterSobel()
 					Gy += Wy[i][j] * z[i][j];
 				}
 
-			G=sqrt(abs(Gx*Gx+Gy*Gy));
+			G=sqrt(Gx*Gx+Gy*Gy);
 			if(G>max) G=max;
 			//if(G<max*0.2) G=0;
 			buf[(y-1)*w+x-1] = G;

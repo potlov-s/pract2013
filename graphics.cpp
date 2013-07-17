@@ -4,6 +4,7 @@
 #include <GL/glu.h>
 #include "trectangle.h"
 #include "triangle.h"
+#include "lsd.h"
 
 void keyboard(unsigned char key, int x, int y )
 {
@@ -18,7 +19,7 @@ void keyboard(unsigned char key, int x, int y )
 }
 
 void drawQuad(TRectangle *r, GLfloat color[]) {
-	glBegin( GL_LINE_LOOP );
+	glBegin( GL_QUADS );
 	glColor3fv( color );
 
 	glVertex2f( r->getLine(1)->getp1()->getx(), r->getLine(1)->getp1()->gety());
@@ -44,7 +45,7 @@ void drawQuad(TRectangle *r, GLfloat color[]) {
 }
 
 void drawTriangle(Triangle *r, GLfloat color[]) {
-	glBegin( GL_LINE_LOOP );
+	glBegin( GL_TRIANGLES );
 	glColor3fv( color );
 
 	glVertex2f( r->getLine(1)->getp1()->getx(), r->getLine(1)->getp1()->gety());
