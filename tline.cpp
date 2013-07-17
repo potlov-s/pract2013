@@ -60,3 +60,8 @@ bool operator==(const TLine& left, const TLine& right) {
 	else
 		return 0;
 }
+void TLine::shift(int dx,int dy)
+{
+	p1.shift(dx,dy);
+	p2.shift(dx,dy);
+}

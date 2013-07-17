@@ -124,7 +124,6 @@ void TImage::filterSobel()
 			G=sqrt(abs(Gx*Gx+Gy*Gy));
 			if(G>max) G=max;
 			//if(G<max*0.2) G=0;
-
 			buf[(y-1)*w+x-1] = G;
 		}
 	}
@@ -137,4 +136,14 @@ TImage& TImage::operator=(TImage& i)
 {
 	copy(&i);
 	return *this;
+}
+
+int TImage::getw()
+{
+	return w;
+}
+
+int TImage::geth()
+{
+	return h;
 }

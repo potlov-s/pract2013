@@ -24,6 +24,6 @@ void TOGLImage::show()
 		for(int x=1;x<=w;x++,i++)
 			data[i]=(int)(getpoint(x,h-y+1)*255/max);
 
-	glRasterPos2f(-w/4,-h/4);
+	glRasterPos2f(-w/2,-h/2);
 	glDrawPixels(w, h, GL_LUMINANCE, GL_UNSIGNED_BYTE, data);
 }

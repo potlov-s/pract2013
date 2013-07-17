@@ -17,6 +17,7 @@ public:
 	TLine(int ix1, int iy1, int ix2, int iy2);
 	virtual ~TLine(void);
 	void show();
+	void shift(int dx,int dy);
 
 	friend bool operator==(const TLine& left, const TLine& right);
 };

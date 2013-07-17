@@ -12,6 +12,8 @@ public:
 	~TImage(void);
 	void setpoint(int px, int py, int color);
 	int getpoint(int px, int py);
+	int getw();
+	int geth();
 	void load(char* file);
 	void save(char* file);
 	void copy(TImage *p);
